@@ -1,401 +1,264 @@
 <!DOCTYPE html>
-<html lang="id">
-<head>
-<meta charset="utf-8">
+<html lang="id"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Keuangan Reza - Siklus Akuntansi & Dashboard</title>
-<link rel="manifest" href="manifest.json">
-<link rel="icon" href="icon.svg">
-<meta name="theme-color" content="#17324d">
-<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Keuangan Reza - Siklus Akuntansi</title><link rel="manifest" href="manifest.json"><link rel="icon" href="icon.svg"><meta name="theme-color" content="#17324d"><meta name="apple-mobile-web-app-capable" content="yes">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
-:root {
-  --bg: #f6f7f9; --sf: #fff; --tx: #1b2430; --mu: #5d6b7c; --bd: #d9dee5; 
-  --ac: #17324d; --ok: #0a7a3d; --okb: #d8f3e3; --er: #b3261e; --erb: #fde0de; --hl: #eaf1f8;
-  box-sizing: border-box; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px);
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme=light]) {
-    --bg: #10151c; --sf: #19212b; --tx: #e6ebf1; --mu: #98a6b6; --bd: #2c3745; 
-    --ac: #7fb2e5; --ok: #6fd49a; --okb: #14382a; --er: #ff8f86; --erb: #44201d; --hl: #1f2b38;
-  }
-}
-html, body { height: 100%; }
-* { box-sizing: border-box; }
-body { margin: 0; background: var(--bg); color: var(--tx); font: 14px/1.45 system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
-header { padding: 12px 14px 6px; }
-h1 { font-size: 18px; margin: 0; color: var(--ac); display: flex; align-items: center; justify-content: space-between; }
-.sub { color: var(--mu); font-size: 12px; }
-nav { display: flex; gap: 4px; overflow-x: auto; padding: 6px 10px; position: sticky; top: env(safe-area-inset-top, 0px); background: var(--bg); z-index: 5; border-bottom: 1px solid var(--bd); }
-nav button { white-space: nowrap; border: 1px solid var(--bd); background: var(--sf); color: var(--tx); padding: 8px 12px; border-radius: 8px; font-size: 13px; cursor: pointer; }
-nav button.on { background: var(--ac); color: var(--bg); border-color: var(--ac); font-weight: 600; }
-main { padding: 10px; max-width: 900px; margin: 0 auto; }
-.card { background: var(--sf); border: 1px solid var(--bd); border-radius: 10px; padding: 14px; margin-bottom: 12px; }
-.grid-dash { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-bottom: 12px; }
-.dash-box { background: var(--hl); padding: 12px; border-radius: 8px; border: 1px solid var(--bd); }
-.dash-box .lbl { font-size: 11px; color: var(--mu); text-transform: uppercase; letter-spacing: 0.5px; }
-.dash-box .val { font-size: 16px; font-weight: bold; margin-top: 4px; color: var(--ac); }
-h2 { font-size: 15px; margin: 0 0 8px; color: var(--ac); }
-label { display: block; font-size: 12px; color: var(--mu); margin: 6px 0 2px; }
-input, select { width: 100%; padding: 9px; border: 1px solid var(--bd); border-radius: 7px; background: var(--bg); color: var(--tx); font-size: 14px; }
-.row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.ln { display: grid; grid-template-columns: 2fr 1fr 1fr 28px; gap: 5px; margin-bottom: 5px; }
-.ln button { border: 0; background: none; color: var(--er); font-size: 18px; cursor: pointer; }
-.btn { border: 0; border-radius: 8px; padding: 10px 14px; font-size: 14px; background: var(--ac); color: var(--bg); margin: 6px 6px 0 0; cursor: pointer; }
-.btn.g { background: var(--sf); color: var(--tx); border: 1px solid var(--bd); }
-.btn:disabled { opacity: .4; cursor: not-allowed; }
-.st { padding: 6px 10px; border-radius: 7px; font-weight: 600; font-size: 13px; margin-top: 6px; display: inline-block; }
-.ok { background: var(--okb); color: var(--ok); }
-.er { background: var(--erb); color: var(--er); }
-.tw { overflow-x: auto; }
-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-th, td { padding: 6px 8px; border-bottom: 1px solid var(--bd); text-align: left; }
-th { background: var(--hl); color: var(--ac); font-size: 12px; }
-.n { text-align: right; white-space: nowrap; }
-tr.b td { font-weight: 700; background: var(--hl); }
-.bd { font-size: 11px; padding: 1px 6px; border-radius: 5px; background: var(--hl); color: var(--ac); }
-.tip { font-size: 12px; color: var(--mu); margin-top: 4px; }
-.xr { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-bottom: 5px; }
-.xr:empty { display: none; }
-@media print { nav, header .btns, .noprint { display: none; } body { background: #fff; color: #000; } .card { border: 0; } }
-</style>
-</head>
-<body>
-<header>
-  <h1>Keuangan Reza</h1>
-  <div class="sub">Siklus Akuntansi & Dashboard | Data tersimpan lokal di perangkat ini</div>
-</header>
-<nav id="nav"></nav>
-<main id="m"></main>
+:root{--bg:#f6f7f9;--sf:#fff;--tx:#1b2430;--mu:#5d6b7c;--bd:#d9dee5;--ac:#17324d;--ok:#0a7a3d;--okb:#d8f3e3;--er:#b3261e;--erb:#fde0de;--hl:#eaf1f8;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#10151c;--sf:#19212b;--tx:#e6ebf1;--mu:#98a6b6;--bd:#2c3745;--ac:#7fb2e5;--ok:#6fd49a;--okb:#14382a;--er:#ff8f86;--erb:#44201d;--hl:#1f2b38}}
+html,body{height:100%}*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+header{padding:12px 14px 6px}h1{font-size:17px;margin:0;color:var(--ac)}.sub{color:var(--mu);font-size:12px}
+nav{display:flex;gap:4px;overflow-x:auto;padding:6px 10px;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:5;border-bottom:1px solid var(--bd)}
+nav button{white-space:nowrap;border:1px solid var(--bd);background:var(--sf);color:var(--tx);padding:8px 12px;border-radius:8px;font-size:13px;cursor:pointer}
+nav button.on{background:var(--ac);color:var(--bg);border-color:var(--ac)}
+main{padding:10px;max-width:900px;margin:0 auto}
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:10px;padding:12px;margin-bottom:10px}
+h2{font-size:15px;margin:0 0 8px;color:var(--ac)}
+label{display:block;font-size:12px;color:var(--mu);margin:6px 0 2px}
+input,select{width:100%;padding:9px;border:1px solid var(--bd);border-radius:7px;background:var(--bg);color:var(--tx);font-size:14px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.grid-4{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:10px}
+.stat-box{background:var(--hl);padding:10px;border-radius:8px;border:1px solid var(--bd)}
+.stat-title{font-size:11px;color:var(--mu);margin-bottom:2px}
+.stat-val{font-size:15px;font-weight:700;color:var(--ac)}
+.ln{display:grid;grid-template-columns:2fr 1fr 1fr 28px;gap:5px;margin-bottom:5px}
+.ln button{border:0;background:none;color:var(--er);font-size:18px;cursor:pointer}
+.btn{border:0;border-radius:8px;padding:10px 14px;font-size:14px;background:var(--ac);color:var(--bg);margin:6px 6px 0 0;cursor:pointer}
+.btn.g{background:var(--sf);color:var(--tx);border:1px solid var(--bd)}.btn:disabled{opacity:.4;cursor:not-allowed}
+.st{padding:6px 10px;border-radius:7px;font-weight:600;font-size:13px;margin-top:6px;display:inline-block}
+.ok{background:var(--okb);color:var(--ok)}.er{background:var(--erb);color:var(--er)}
+.tw{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:6px 8px;border-bottom:1px solid var(--bd);text-align:left}th{background:var(--hl);color:var(--ac);font-size:12px}
+.n{text-align:right;white-space:nowrap}tr.b td{font-weight:700;background:var(--hl)}
+.bd{font-size:11px;padding:1px 6px;border-radius:5px;background:var(--hl);color:var(--ac)}
+.tip{font-size:12px;color:var(--mu);margin-top:4px}
+.xr{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:5px}.xr:empty{display:none}
+@media print{nav,header .btns,.noprint{display:none}body{background:#fff;color:#000}.card{border:0}}
+</style></head><body>
+<header><h1>Keuangan Reza</h1><div class="sub">Siklus akuntansi | Rupiah | data disimpan di perangkat ini (tanpa login)</div></header>
+<nav id="nav"></nav><main id="m"></main>
 <script>
-// Initial COA Default
-const DEFAULT_COA = [
-  ["1-1101","TUNAI (KAS)"],["1-1102","BANK"],["1-1103","EWALLET"],
-  ["1-1201","PIUTANG"],["1-1301","BIAYA DIBAYAR DI MUKA"],
-  ["1-2010","PERSEDIAAN BARANG"],["1-4001","PERALATAN"],["1-4002","AKUMULASI PENYUSUTAN PERALATAN"],
-  ["2-1101","HUTANG USAHA"],["2-1201","BEBAN YANG MASIH HARUS DIBAYAR"],
-  ["3-1001","MODAL AWAL"],["3-1002","PRIVE"],["3-2001","LABA DITAHAN"],
-  ["4-1100","PENJUALAN BARANG"],["4-2100","PENDAPATAN GAJI"],["4-3100","PENDAPATAN SELISIH KURS"],["4-3200","PENDAPATAN LAIN LAIN"],
-  ["5-1300","HARGA POKOK PENJUALAN (HPP)"],["5-2001","BIAYA KONSUMSI"],["5-2002","BIAYA HIBURAN"],
-  ["5-2003","BIAYA KOMUNIKASI DAN INTERNET"],["5-2004","BIAYA LISTRIK DAN AIR"],["5-2005","BIAYA SEWA KOST"],
-  ["5-2006","BIAYA TRANSPORTASI DAN BBM"],["5-2007","BIAYA PEMELIHARAAN ASET"],["5-2008","BIAYA PENDIDIKAN"],
-  ["5-2009","BIAYA KEWAJIBAN KE ORANG TUA"],["5-3001","BUNGA PINJAMAN"],["5-3002","BIAYA ADMIN BANK"],
-  ["5-4001","BEBAN GAJI DIBAYAR"],["5-5001","BEBAN PENYUSUTAN PERALATAN"],["5-9001","BIAYA LAIN LAIN DAN SELISIH KAS"],["5-9002","BEBAN GIFT"]
-];
+const DEFAULT_COA=`1-1101|TUNAI (KAS)
+1-1102|BANK
+1-1103|EWALLET
+1-1201|PIUTANG
+1-1301|BIAYA DIBAYAR DI MUKA
+1-2010|PERSEDIAAN
+1-4001|PERALATAN
+1-4002|AKUMULASI PENYUSUTAN PERALATAN
+2-1101|HUTANG
+2-1201|BEBAN YANG MASIH HARUS DIBAYAR
+3-1001|MODAL AWAL
+3-1002|PRIVE
+3-2001|LABA DITAHAN
+4-1100|PENJUALAN BARANG
+4-2100|PENDAPATAN GAJI
+4-3100|PENDAPATAN SELISIH KURS
+4-3200|PENDAPATAN LAIN LAIN
+5-1300|HARGA POKOK PENJUALAN (HPP)
+5-2001|BIAYA KONSUMSI
+5-2002|BIAYA HIBURAN
+5-2003|BIAYA KOMUNIKASI DAN INTERNET
+5-2004|BIAYA LISTRIK DAN AIR
+5-2005|BIAYA SEWA KOST
+5-2006|BIAYA TRANSPORTASI DAN BBM
+5-2007|BIAYA PEMELIHARAAN ASET
+5-2008|BIAYA PENDIDIKAN
+5-2009|BIAYA KEWAJIBAN KE ORANG TUA
+5-3001|BUNGA PINJAMAN
+5-3002|BIAYA ADMIN BANK
+5-4001|BEBAN GAJI DIBAYAR
+5-5001|BEBAN PENYUSUTAN PERALATAN
+5-9001|BIAYA LAIN LAIN DAN SELISIH KAS
+5-9002|BEBAN GIFT`.split("\n").map(s=>s.split("|"));
 
-const KEY = "keuangan-reza-v2";
-let S = {
-  j: [],
-  coa: JSON.parse(JSON.stringify(DEFAULT_COA)),
-  products: [{code: "GLDIND", name: "Emas Antam (gram)"}, {code: "BTCTC", name: "Bitcoin (BTC)"}],
-  contacts: [{code: "P-001", name: "Riska (Pelanggan)"}, {code: "H-001", name: "PayLater (Kreditur)"}]
-};
+const KAS=["1-1101","1-1102","1-1103"];
+const E=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const F=n=>{n=Math.round(n);return n===0?"-":(n<0?"(":"")+Math.abs(n).toLocaleString("id-ID")+(n<0?")":"")};
+const KEY="keuangan-reza-v2";
+let S={j:[],coa:DEFAULT_COA,bantu:[["P-001","Pelanggan A"],["H-001","Supplier A"]],prod:[["GLDIND","Emas 1 Gram",1200000]]},tab="db",acc="1-1101",ord={A:0,U:1,P:2};
 
-try {
-  const loaded = JSON.parse(localStorage.getItem(KEY));
-  if (loaded) S = Object.assign(S, loaded);
-} catch(e){}
-
-const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e){} };
-
-const getNM = () => Object.fromEntries(S.coa);
-const KAS = ["1-1101","1-1102","1-1103"];
-const BANTU = ["1-1201","2-1101","1-2010"];
-
-const E = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const F = n => { n = Math.round(n); return n === 0 ? "-" : (n < 0 ? "(" : "") + Math.abs(n).toLocaleString("id-ID") + (n < 0 ? ")" : ""); };
-
-let tab = "db", acc = "1-1101", ord = {A:0, U:1, P:2};
-
-const sorted = () => [...S.j].sort((a,b) => a.tgl.localeCompare(b.tgl) || ord[a.jn] - ord[b.jn] || a.id - b.id);
-const tot = l => [l.reduce((s,x) => s + (+x[1]||0), 0), l.reduce((s,x) => s + (+x[2]||0), 0)];
-
-function bal(types) {
-  const b = {};
-  for (const j of S.j)
-    if (types.includes(j.jn))
-      for (const [k, d, c] of j.l)
-        b[k] = (b[k] || 0) + (+d || 0) - (+c || 0);
-  return b;
-}
-
-const T = {
-  db: "Dashboard",
-  in: "Input Jurnal",
-  ju: "Jurnal",
-  bb: "Buku Besar",
-  bt: "Buku Bantu",
-  ns: "Neraca Saldo",
-  lp: "Laporan",
-  st: "Pengaturan"
-};
-
-document.getElementById("nav").innerHTML = Object.entries(T).map(([k,v]) => `<button data-t="${k}">${v}</button>`).join("");
-document.getElementById("nav").onclick = e => { const t = e.target.dataset.t; if (t) { tab = t; draw(); } };
-
-const opts = sel => S.coa.map(([k,n]) => `<option value="${k}"${k===sel?" selected":""}>${k} ${E(n)}</option>`).join("");
-const tbl = (h, rows, nc=[]) => `<div class="tw"><table><tr>${h.map((x,i)=>`<th class="${nc.includes(i)?"n":""}">${x}</th>`).join("")}</tr>${rows.map(r=>`<tr class="${r.b?"b":""}">${r.c.map((x,i)=>`<td class="${nc.includes(i)?"n":""}">${x}</td>`).join("")}</tr>`).join("")}</table></div>`;
-const stat = (ok, t) => `<span class="st ${ok?"ok":"er"}">${ok?"OK":"ERROR"}: ${t}</span>`;
-
-// --- RENDER DASHBOARD ---
-function drawDb() {
-  const R = reports();
-  const b = bal(["A","U","P"]);
-  const totalKas = KAS.reduce((s,k) => s + (b[k]||0), 0);
-  const recentJ = sorted().slice(-5).reverse();
-
-  return `
-    <div class="card">
-      <h2>Ringkasan Keuangan (Real-time)</h2>
-      <div class="grid-dash">
-        <div class="dash-box"><div class="lbl">Total Kas & Bank</div><div class="val">${F(totalKas)}</div></div>
-        <div class="dash-box"><div class="lbl">Total Aset</div><div class="val">${F(R.summary.aset)}</div></div>
-        <div class="dash-box"><div class="lbl">Total Liabilitas</div><div class="val">${F(R.summary.liab)}</div></div>
-        <div class="dash-box"><div class="lbl">Laba / Rugi Bersih</div><div class="val">${F(R.summary.laba)}</div></div>
-      </div>
-    </div>
-    <div class="card">
-      <h2>Penyebaran Kas</h2>
-      ${tbl(["Akun Kas", "Saldo"], KAS.map(k => ({c: [getNM()[k] || k, F(b[k]||0)]})), [1])}
-    </div>
-    <div class="card">
-      <h2>5 Transaksi Jurnal Terakhir</h2>
-      ${recentJ.length ? tbl(["Tanggal", "Keterangan", "Jenis"], recentJ.map(j => ({c: [j.tgl, E(j.ket), {A:"Saldo Awal", U:"Umum", P:"Penyesuaian"}[j.jn]]}))) : '<p class="tip">Belum ada transaksi.</p>'}
-    </div>
-  `;
-}
-
-// --- INPUT & LINES LOGIC ---
-let lines = [["", 0, 0], ["", 0, 0]];
-const xt = i => {
-  const x = lines[i];
-  if (!BANTU.includes(x[0])) return "";
-  let list = [];
-  if (x[0] === "1-2010") list = S.products.map(p => `<option value="${p.code}">${p.code} - ${E(p.name)}</option>`);
-  else list = S.contacts.map(c => `<option value="${c.code}">${c.code} - ${E(c.name)}</option>`);
-  
-  return `<input data-i="${i}" data-f="3" list="dl${i}" placeholder="Kode bantu/produk" value="${E(x[3]||"")}"><datalist id="dl${i}">${list.join("")}</datalist>` +
-    (x[0] === "1-2010" ? `<input data-i="${i}" data-f="4" inputmode="decimal" placeholder="Qty" value="${x[4]||""}">` : "");
-};
-
-const okL = () => {
-  const [D, K] = tot(lines);
-  return Math.abs(D - K) < 0.005 && D > 0 && lines.filter(x => x[0]).length >= 2 && lines.every(x => !BANTU.includes(x[0]) || (x[3] && (x[0] !== "1-2010" || +x[4])));
-};
-
-function drawIn() {
-  const [D, K] = tot(lines), ok = okL();
-  return `
-    <div class="card">
-      <h2>Input Transaksi Jurnal</h2>
-      <div class="row">
-        <div><label>Tanggal</label><input type="date" id="tg" value="${new Date().toISOString().slice(0,10)}"></div>
-        <div><label>Jenis Jurnal</label><select id="jn"><option value="U">Umum</option><option value="P">Penyesuaian</option><option value="A">Saldo awal</option></select></div>
-      </div>
-      <label>Keterangan Transaksi</label><input id="kt" placeholder="mis. Pembayaran Sewa Kost">
-      <label>Baris Jurnal (Akun, Debit, Kredit)</label>
-      ${lines.map((x,i) => `
-        <div class="ln">
-          <select data-i="${i}" data-f="0"><option value="">- pilih akun -</option>${opts(x[0])}</select>
-          <input inputmode="decimal" data-i="${i}" data-f="1" value="${x[1]||""}" placeholder="Debit">
-          <input inputmode="decimal" data-i="${i}" data-f="2" value="${x[2]||""}" placeholder="Kredit">
-          <button data-del="${i}" aria-label="Hapus">×</button>
-        </div>
-        <div class="xr" id="x${i}">${xt(i)}</div>
-      `).join("")}
-      <button class="btn g" id="add">+ Tambah Baris</button>
-      <div id="tt">${stat(ok, `Debit ${F(D)} | Kredit ${F(K)} | Selisih ${F(D-K)}`)}</div>
-      <button class="btn" id="sv" ${ok ? "" : "disabled"}>Simpan Jurnal</button>
-    </div>
-    <div class="card">
-      <h2>Pengelolaan Data & Cadangan</h2>
-      <button class="btn g" id="bk">Cadangkan Data (JSON)</button>
-      <label class="btn g" style="display:inline-block;color:var(--tx);margin-bottom:0">Pulihkan Backup<input type="file" id="rs" accept=".json" hidden></label>
-      <button class="btn g" id="clr" style="color:var(--er)">Hapus Semua Data</button>
-    </div>
-  `;
-}
-
-function bindIn() {
-  const m = document.getElementById("m");
-  m.oninput = m.onchange = e => {
-    const t = e.target, i = t.dataset.i;
-    if (t.id === "rs") { restore(t.files[0]); return; }
-    if (i === undefined) return;
-    const f = t.dataset.f;
-    lines[i][f] = f === "0" || f === "3" ? t.value : (+t.value.replace(",", ".") || 0);
-    if (f === "0") document.getElementById("x" + i).innerHTML = xt(i);
-    refresh();
-  };
-  function refresh() {
-    const [D, K] = tot(lines), ok = okL();
-    document.getElementById("tt").innerHTML = stat(ok, `Debit ${F(D)} | Kredit ${F(K)} | Selisih ${F(D-K)}`);
-    document.getElementById("sv").disabled = !ok;
+try{
+  const local=JSON.parse(localStorage.getItem(KEY));
+  if(local){
+    S={...S,...local};
+    if(!S.coa||!S.coa.length)S.coa=DEFAULT_COA;
+    if(!S.bantu)S.bantu=[["P-001","Pelanggan A"],["H-001","Supplier A"]];
+    if(!S.prod)S.prod=[["GLDIND","Emas 1 Gram",1200000]];
   }
-  m.onclick = e => {
-    const t = e.target;
-    if (t.dataset.del !== undefined) { lines.splice(+t.dataset.del, 1); if (lines.length < 2) lines.push(["",0,0]); draw(); }
-    else if (t.id === "add") { lines.push(["",0,0]); draw(); }
-    else if (t.id === "sv") {
-      if (!okL()) return;
-      S.j.push({ id: Date.now(), tgl: tg.value, jn: jn.value, ket: kt.value || "(tanpa keterangan)", l: lines.filter(x => x[0] && (x[1] || x[2])) });
-      save(); lines = [["",0,0], ["",0,0]]; tab = "ju"; draw();
-    }
-    else if (t.id === "bk") saveFile("cadangan-keuangan-reza.json", new Blob([JSON.stringify(S)], {type:"application/json"}));
-    else if (t.id === "clr" && confirm("Apakah Anda yakin ingin menghapus seluruh data?")) {
-      S.j = []; save(); draw();
-    }
-  };
-}
+}catch(e){}
 
-// --- RENDER MENU PENGATURAN (MASTER DATA) ---
-function drawSt() {
-  return `
-    <div class="card">
-      <h2>Tambah Akun Baru (COA)</h2>
-      <div class="row">
-        <div><label>Kode Akun (cth: 5-2010)</label><input id="st_k" placeholder="1-xxxx / 5-xxxx"></div>
-        <div><label>Nama Akun</label><input id="st_n" placeholder="Biaya Marketing"></div>
-      </div>
-      <button class="btn" id="add_coa">Simpan Akun</button>
+const getNM=()=>Object.fromEntries(S.coa);
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const sorted=()=>[...S.j].sort((a,b)=>a.tgl.localeCompare(b.tgl)||ord[a.jn]-ord[b.jn]||a.id-b.id);
+const tot=l=>[l.reduce((s,x)=>s+(+x[1]||0),0),l.reduce((s,x)=>s+(+x[2]||0),0)];
+function bal(types){const b={};for(const j of S.j)if(types.includes(j.jn))for(const[k,d,c]of j.l)b[k]=(b[k]||0)+(+d||0)-(+c||0);return b}
+
+const T={db:"Dashboard",in:"Input",ju:"Jurnal",bb:"Buku Besar",bt:"Buku Bantu",ns:"Neraca Saldo",lp:"Laporan",st:"Pengaturan"};
+document.getElementById("nav").innerHTML=Object.entries(T).map(([k,v])=>`<button data-t="${k}">${v}</button>`).join("");
+document.getElementById("nav").onclick=e=>{const t=e.target.dataset.t;if(t){tab=t;draw()}};
+
+const opts=sel=>S.coa.map(([k,n])=>`<option value="${k}"${k===sel?" selected":""}>${k} ${E(n)}</option>`).join("");
+const tbl=(h,rows,nc=[])=>`<div class="tw"><table><tr>${h.map((x,i)=>`<th class="${nc.includes(i)?"n":""}">${x}</th>`).join("")}</tr>${rows.map(r=>`<tr class="${r.b?"b":""}">${r.c.map((x,i)=>`<td class="${nc.includes(i)?"n":""}">${x}</td>`).join("")}</tr>`).join("")}</table></div>`;
+const stat=(ok,t)=>`<span class="st ${ok?"ok":"er"}">${ok?"OK":"ERROR"}: ${t}</span>`;
+
+const BANTU=["1-1201","2-1101","1-2010"];let lines=[["",0,0],["",0,0]];
+const xt=i=>{const x=lines[i];return BANTU.includes(x[0])?`<input data-i="${i}" data-f="3" placeholder="Kode bantu (mis. P-001, GLDIND)" value="${E(x[3]||"")}">${x[0]==="1-2010"?`<input data-i="${i}" data-f="4" inputmode="decimal" placeholder="Qty" value="${x[4]||""}">`:""}`:""};
+const okL=()=>{const[D,K]=tot(lines);return Math.abs(D-K)<0.005&&D>0&&lines.filter(x=>x[0]).length>=2&&lines.every(x=>!BANTU.includes(x[0])||(x[3]&&(x[0]!=="1-2010"||+x[4])))};
+
+function drawDb(){
+  const R=reports(),b=bal(["A","U","P"]),NM=getNM();
+  const kasTotal=KAS.reduce((s,k)=>s+(b[k]||0),0);
+  const recentJ=sorted().slice(-5).reverse();
+  return `<div class="card">
+    <h2>Ringkasan Keuangan</h2>
+    <div class="grid-4">
+      <div class="stat-box"><div class="stat-title">TOTAL ASET</div><div class="stat-val">${F(R.aset)}</div></div>
+      <div class="stat-box"><div class="stat-title">LIABILITAS (HUTANG)</div><div class="stat-val">${F(R.liab)}</div></div>
+      <div class="stat-box"><div class="stat-title">EKUITAS (MODAL)</div><div class="stat-val">${F(R.eq)}</div></div>
+      <div class="stat-box"><div class="stat-title">LABA (RUGI) BERSIH</div><div class="stat-val" style="color:${R.laba>=0?'var(--ok)':'var(--er)'}">${F(R.laba)}</div></div>
     </div>
-    <div class="card">
-      <h2>Tambah Produk / Inventaris</h2>
-      <div class="row">
-        <div><label>Kode Produk</label><input id="pr_c" placeholder="E.g. GLDIND"></div>
-        <div><label>Nama Produk</label><input id="pr_n" placeholder="Emas Antam"></div>
-      </div>
-      <button class="btn" id="add_pr">Simpan Produk</button>
-    </div>
-    <div class="card">
-      <h2>Master Kode Bantu (Pelanggan/Kreditur)</h2>
-      <div class="tw">
-        <table>
-          <tr><th>Kode</th><th>Nama</th></tr>
-          ${S.contacts.map(c => `<tr><td>${E(c.code)}</td><td>${E(c.name)}</td></tr>`).join("")}
-        </table>
-      </div>
-    </div>
-  `;
+  </div>
+  <div class="card">
+    <h2>Posisi Kas & Bank</h2>
+    ${tbl(["Akun","Saldo"],[...KAS.map(k=>({c:[k+" "+E(NM[k]||k),F(b[k]||0)]})),{b:1,c:["TOTAL KAS & BANK",F(kasTotal)]}],[1])}
+  </div>
+  <div class="card">
+    <h2>5 Transaksi Terakhir</h2>
+    ${recentJ.length?tbl(["Tanggal","Keterangan","Total Transaksi"],recentJ.map(j=>({c:[j.tgl,E(j.ket),F(tot(j.l)[0])]}))) : '<p class="tip">Belum ada transaksi.</p>'}
+  </div>`;
 }
 
-function bindSt() {
-  const m = document.getElementById("m");
-  m.onclick = e => {
-    if (e.target.id === "add_coa") {
-      const k = st_k.value.trim(), n = st_n.value.trim();
-      if (k && n) { S.coa.push([k, n]); save(); alert("Akun berhasil ditambahkan!"); draw(); }
-    } else if (e.target.id === "add_pr") {
-      const c = pr_c.value.trim(), n = pr_n.value.trim();
-      if (c && n) { S.products.push({code: c, name: n}); save(); alert("Produk berhasil ditambahkan!"); draw(); }
+function drawIn(){const[D,K]=tot(lines),ok=okL();
+return`<div class="card"><h2>Input transaksi (jurnal)</h2><div class="row"><div><label>Tanggal</label><input type="date" id="tg" value="${new Date().toISOString().slice(0,10)}"></div><div><label>Jenis</label><select id="jn"><option value="U">Umum</option><option value="P">Penyesuaian</option><option value="A">Saldo awal</option></select></div></div>
+<label>Keterangan</label><input id="kt" placeholder="mis. Bayar listrik">
+<label>Baris jurnal (akun, debit, kredit)</label>${lines.map((x,i)=>`<div class="ln"><select data-i="${i}" data-f="0"><option value="">- akun -</option>${opts(x[0])}</select><input inputmode="decimal" data-i="${i}" data-f="1" value="${x[1]||""}" placeholder="Debit"><input inputmode="decimal" data-i="${i}" data-f="2" value="${x[2]||""}" placeholder="Kredit"><button data-del="${i}" aria-label="hapus">×</button></div><div class="xr" id="x${i}">${xt(i)}</div>`).join("")}
+<button class="btn g" id="add">+ Baris</button><div id="tt">${stat(ok,`Debit ${F(D)} | Kredit ${F(K)} | Selisih ${F(D-K)}`)}</div>
+<button class="btn" id="sv" ${ok?"":"disabled"}>Simpan jurnal</button><div class="tip">Jurnal hanya bisa disimpan jika debit = kredit. Satu jurnal boleh lebih dari 2 baris.</div></div>
+<div class="card"><h2>Data & Cadangan</h2><button class="btn g" id="clr">Hapus semua data</button><button class="btn g" id="bk">Cadangkan (JSON)</button><label class="btn g" style="display:inline-block;color:var(--tx);margin-bottom:0">Pulihkan<input type="file" id="rs" accept=".json" hidden></label></div>`}
+
+function bindIn(){const m=document.getElementById("m");
+m.oninput=m.onchange=e=>{const t=e.target,i=t.dataset.i;if(t.id==="rs"){restore(t.files[0]);return}if(i===undefined)return;const f=t.dataset.f;lines[i][f]=f==="0"||f==="3"?t.value:(+t.value.replace(",",".")||0);if(f==="0")document.getElementById("x"+i).innerHTML=xt(i);refresh()};
+function refresh(){const[D,K]=tot(lines),ok=okL();document.getElementById("tt").innerHTML=stat(ok,`Debit ${F(D)} | Kredit ${F(K)} | Selisih ${F(D-K)}`);document.getElementById("sv").disabled=!ok}
+m.onclick=e=>{const t=e.target;if(t.dataset.del!==undefined){lines.splice(+t.dataset.del,1);if(lines.length<2)lines.push(["",0,0]);draw()}
+else if(t.id==="add"){lines.push(["",0,0]);draw()}
+else if(t.id==="sv"){if(!okL())return;S.j.push({id:Date.now(),tgl:tg.value,jn:jn.value,ket:kt.value||"(tanpa keterangan)",l:lines.filter(x=>x[0]&&(x[1]||x[2]))});save();lines=[["",0,0],["",0,0]];tab="ju";draw()}
+else if(t.id==="bk")saveFile("cadangan-keuangan-reza.json",new Blob([JSON.stringify(S)],{type:"application/json"}));else if(t.id==="clr"&&confirm("Hapus semua jurnal di perangkat ini?")){S.j=[];save();draw()}}}
+
+function drawJu(){const J=sorted(),NM=getNM();if(!J.length)return`<div class="card">Belum ada jurnal. Isi di tab Input.</div>`;
+const[D,K]=tot(J.flatMap(j=>j.l));
+return`<div class="card"><h2>Jurnal umum</h2>${stat(Math.abs(D-K)<0.5,`Total debit ${F(D)} = kredit ${F(K)}`)}</div>`+J.map(j=>`<div class="card"><b>${j.tgl}</b> <span class="bd">${{A:"Saldo awal",U:"Umum",P:"Penyesuaian"}[j.jn]}</span> ${E(j.ket)} <button class="btn g noprint" data-rm="${j.id}" style="float:right;margin:0;padding:4px 8px">Hapus</button>${tbl(["Akun","Debit","Kredit"],j.l.map(([k,d,c,t,q])=>({c:[(c?"&emsp;":"")+k+" "+E(NM[k]||k)+(t?` <span class="bd">${E(t)}${q?" ×"+q:""}</span>`:""),F(d),F(c)]})),[1,2])}</div>`).join("")}
+
+function drawBb(){let s=0;const rows=[];for(const j of sorted())for(const[k,d,c]of j.l)if(k===acc){s+=(+d||0)-(+c||0);rows.push({c:[j.tgl,E(j.ket),F(d),F(c),F(s)]})}
+return`<div class="card"><h2>Buku besar</h2><select id="ac">${opts(acc)}</select>${rows.length?tbl(["Tanggal","Keterangan","Debit","Kredit","Saldo (D-K)"],rows,[2,3,4]):'<p class="tip">Belum ada mutasi.</p>'}</div>`}
+
+function drawBt(){const g=bal(["A","U","P"]);return[["1-1201",1,"Piutang"],["2-1101",-1,"Hutang"],["1-2010",1,"Persediaan"]].map(([k,s,t])=>{const m={};for(const j of S.j)for(const x of j.l)if(x[0]===k){const n=x[3]||"(tanpa kode)",o=m[n]=m[n]||[0,0];o[0]+=((+x[1]||0)-(+x[2]||0))*s;o[1]+=x[4]?(x[1]?1:-1)*x[4]:0}
+const rows=Object.entries(m).map(([n,[v,q]])=>({c:[E(n),k==="1-2010"?+q.toFixed(6):"",F(v),k==="1-2010"&&q>0?F(v/q):""]})),sm=Object.values(m).reduce((a,o)=>a+o[0],0);
+return`<div class="card"><h2>Buku bantu ${t} (${k})</h2>${rows.length?tbl(["Kode","Qty","Saldo","Rata-rata"],rows,[1,2,3]):'<p class="tip">Belum ada.</p>'}${stat(Math.abs(sm-(g[k]||0)*s)<.5,`Total bantu ${F(sm)} = akun ${F((g[k]||0)*s)}`)}</div>`}).join("")}
+
+function drawPt(){const b=bal(["A","U","P"]),nm=S.coa.filter(([k])=>/^[45]/.test(k)&&Math.abs(b[k]||0)>.5),laba=-nm.reduce((s,[k])=>s+b[k],0),pv=b["3-1002"]||0,P=x=>Math.max(x,0);
+const r=[...nm.map(([k,n])=>({c:["1-2. "+k+" "+E(n),F(P(-b[k])),F(P(b[k]))]})),{c:["1-2. 3-9000 Ikhtisar Laba Rugi",F(nm.reduce((s,[k])=>s+P(b[k]),0)),F(nm.reduce((s,[k])=>s+P(-b[k]),0))]},{c:["3. 3-9000 Ikhtisar Laba Rugi",F(P(laba)),F(P(-laba))]},{c:["3. 3-2001 Laba Ditahan",F(P(-laba)),F(P(laba))]},{c:["4. 3-2001 Laba Ditahan",F(P(pv)),F(P(-pv))]},{c:["4. 3-1002 Prive",F(P(-pv)),F(P(pv))]}];
+const nb=k=>/^[45]/.test(k)||k==="3-9000"||k==="3-1002"?0:k==="3-2001"?(b[k]||0)-laba+pv:(b[k]||0),R=S.coa.filter(([k])=>Math.abs(nb(k))>.5),sd=R.reduce((s,[k])=>s+P(nb(k)),0),sk=R.reduce((s,[k])=>s+P(-nb(k)),0);
+return`<div class="card"><h2>Jurnal penutup</h2>${tbl(["Langkah / akun","Debit","Kredit"],r,[1,2])}</div><div class="card"><h2>Neraca saldo setelah penutupan</h2>${tbl(["Akun","Debit","Kredit"],[...R.map(([k,n])=>({c:[k+" "+E(n),F(P(nb(k))),F(P(-nb(k)))]})),{b:1,c:["TOTAL",F(sd),F(sk)]}],[1,2])}${stat(Math.abs(sd-sk)<.5,"NS setelah penutupan seimbang; akun 4, 5, 3-9000, 3-1002 bersaldo 0")}</div>`}
+
+function drawSt(){
+  return `<div class="card">
+    <h2>Pengaturan Master Data</h2>
+    <h3>1. Tambah / Kelola Akun (COA)</h3>
+    <div class="row">
+      <div><label>Kode Akun (mis: 5-2010)</label><input id="new-code" placeholder="Kode"></div>
+      <div><label>Nama Akun</label><input id="new-name" placeholder="Nama Akun"></div>
+    </div>
+    <button class="btn" id="add-coa">+ Tambah Akun</button>
+    <br><br>
+    ${tbl(["Kode Akun","Nama Akun"],S.coa.map(([k,n])=>({c:[k,E(n)]})))}
+  </div>
+  <div class="card">
+    <h3>2. Master Produk / Inventaris</h3>
+    <div class="row">
+      <div><label>Kode Produk</label><input id="p-code" placeholder="mis. BRG01"></div>
+      <div><label>Nama Produk</label><input id="p-name" placeholder="Nama Barang"></div>
+    </div>
+    <div><label>Harga Dasar / Unit</label><input id="p-price" type="number" placeholder="Rp"></div>
+    <button class="btn" id="add-prod">+ Tambah Produk</button>
+    <br><br>
+    ${tbl(["Kode","Nama Produk","Harga Dasar"],S.prod.map(([k,n,p])=>({c:[k,E(n),F(p)]})),[2])}
+  </div>
+  <div class="card">
+    <h3>3. Master Kode Bantu (Kontak)</h3>
+    <div class="row">
+      <div><label>Kode Bantu (mis: P-001 / H-001)</label><input id="b-code" placeholder="Kode"></div>
+      <div><label>Nama Kontak / Keterangan</label><input id="b-name" placeholder="Nama"></div>
+    </div>
+    <button class="btn" id="add-bantu">+ Tambah Kontak</button>
+    <br><br>
+    ${tbl(["Kode","Nama / Keterangan"],S.bantu.map(([k,n])=>({c:[k,E(n)]})))}
+  </div>`;
+}
+
+function bindSt(){
+  const m=document.getElementById("m");
+  m.onclick=e=>{
+    const id=e.target.id;
+    if(id==="add-coa"){
+      const k=document.getElementById("new-code").value.trim(),n=document.getElementById("new-name").value.trim();
+      if(k&&n){S.coa.push([k,n]);S.coa.sort((a,b)=>a[0].localeCompare(b[0]));save();draw();}
+    }else if(id==="add-prod"){
+      const k=document.getElementById("p-code").value.trim(),n=document.getElementById("p-name").value.trim(),p=+document.getElementById("p-price").value||0;
+      if(k&&n){S.prod.push([k,n,p]);save();draw();}
+    }else if(id==="add-bantu"){
+      const k=document.getElementById("b-code").value.trim(),n=document.getElementById("b-name").value.trim();
+      if(k&&n){S.bantu.push([k,n]);save();draw();}
     }
-  };
+  }
 }
 
-// --- JURNAL, BUKU BESAR, & LAPORAN ---
-function drawJu() {
-  const J = sorted();
-  if (!J.length) return `<div class="card">Belum ada jurnal transaksi.</div>`;
-  const [D, K] = tot(J.flatMap(j => j.l));
-  const NM = getNM();
-  return `<div class="card"><h2>Daftar Jurnal Umum</h2>${stat(Math.abs(D-K)<0.5, `Total Debit ${F(D)} = Kredit ${F(K)}`)}</div>` +
-    J.map(j => `<div class="card"><b>${j.tgl}</b> <span class="bd">${{A:"Saldo Awal", U:"Umum", P:"Penyesuaian"}[j.jn]}</span> ${E(j.ket)} <button class="btn g noprint" data-rm="${j.id}" style="float:right;margin:0;padding:4px 8px">Hapus</button>${tbl(["Akun","Debit","Kredit"], j.l.map(([k,d,c,t,q]) => ({c: [(c?"&emsp;":"") + k + " " + E(NM[k]||k) + (t?` <span class="bd">${E(t)}${q?" ×"+q:""}</span>`:""), F(d), F(c)]})), [1,2])}</div>`).join("");
-}
+const saveFile=async(n,b)=>{let dl=null;try{dl=window.claude&&claude.use?await claude.use("downloads"):null}catch(e){}if(dl){try{await dl.save({filename:n,data:b})}catch(e){}}else{const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download=n;a.click()}};
+const restore=f=>{if(!f)return;const r=new FileReader();r.onload=()=>{try{const o=JSON.parse(r.result);if(!o||!Array.isArray(o.j))throw 0;if(confirm("Ganti semua data dengan cadangan ini?")){S={...S,...o};save();tab="ju";draw()}}catch(x){alert("File cadangan tidak valid.")}};r.readAsText(f)};
 
-function drawBb() {
-  let s = 0; const rows = [];
-  for (const j of sorted())
-    for (const [k, d, c] of j.l)
-      if (k === acc) {
-        s += (+d||0) - (+c||0);
-        rows.push({c: [j.tgl, E(j.ket), F(d), F(c), F(s)]});
-      }
-  return `<div class="card"><h2>Buku Besar Akun</h2><select id="ac">${opts(acc)}</select>${rows.length ? tbl(["Tanggal","Keterangan","Debit","Kredit","Saldo"], rows, [2,3,4]) : '<p class="tip">Belum ada mutasi pada akun ini.</p>'}</div>`;
-}
+function nsRows(){const a=bal(["A","U"]),p=bal(["P"]),f=bal(["A","U","P"]);const sp=v=>[v>0?v:0,v<0?-v:0];
+return S.coa.map(([k,n])=>({k,n,a:sp(a[k]||0),p:sp(p[k]||0),f:sp(f[k]||0)})).filter(r=>r.a[0]||r.a[1]||r.p[0]||r.p[1]||r.f[0]||r.f[1])}
 
-function drawBt() {
-  const g = bal(["A","U","P"]);
-  return [["1-1201",1,"Piutang"],["2-1101",-1,"Hutang"],["1-2010",1,"Persediaan"]].map(([k,s,t]) => {
-    const m = {};
-    for (const j of S.j)
-      for (const x of j.l)
-        if (x[0] === k) {
-          const n = x[3] || "(tanpa kode)", o = m[n] = m[n] || [0,0];
-          o[0] += ((+x[1]||0) - (+x[2]||0)) * s;
-          o[1] += x[4] ? (x[1] ? 1 : -1) * x[4] : 0;
-        }
-    const rows = Object.entries(m).map(([n, [v, q]]) => ({c: [E(n), k === "1-2010" ? +q.toFixed(6) : "", F(v), k === "1-2010" && q > 0 ? F(v/q) : ""]}));
-    const sm = Object.values(m).reduce((a,o) => a + o[0], 0);
-    return `<div class="card"><h2>Buku Bantu ${t} (${k})</h2>${rows.length ? tbl(["Kode","Qty","Saldo","Rata-rata"], rows, [1,2,3]) : '<p class="tip">Belum ada catatan.</p>'}${stat(Math.abs(sm - (g[k]||0)*s) < .5, `Total Bantu ${F(sm)} = Akun ${F((g[k]||0)*s)}`)}</div>`;
-  }).join("");
-}
+function drawNs(){const R=nsRows();if(!R.length)return`<div class="card">Belum ada data.</div>`;const s=(i,w)=>R.reduce((x,r)=>x+r[i][w],0);
+const rows=R.map(r=>({c:[r.k+" "+E(r.n),F(r.a[0]),F(r.a[1]),F(r.p[0]),F(r.p[1]),F(r.f[0]),F(r.f[1])]}));
+rows.push({b:1,c:["TOTAL",F(s("a",0)),F(s("a",1)),F(s("p",0)),F(s("p",1)),F(s("f",0)),F(s("f",1))]});
+return`<div class="card"><h2>Neraca saldo</h2>${tbl(["Akun","NS D","NS K","Penyes. D","Penyes. K","Setelah D","Setelah K"],rows,[1,2,3,4,5,6])}${stat(Math.abs(s("a",0)-s("a",1))<.5,"NS seimbang")} ${stat(Math.abs(s("f",0)-s("f",1))<.5,"NS setelah penyesuaian seimbang")}</div>`}
 
-function drawNs() {
-  const R = nsRows();
-  if (!R.length) return `<div class="card">Belum ada data transaksi.</div>`;
-  const s = (i, w) => R.reduce((x, r) => x + r[i][w], 0);
-  const rows = R.map(r => ({c: [r.k + " " + E(r.n), F(r.a[0]), F(r.a[1]), F(r.p[0]), F(r.p[1]), F(r.f[0]), F(r.f[1])]}));
-  rows.push({b: 1, c: ["TOTAL", F(s("a",0)), F(s("a",1)), F(s("p",0)), F(s("p",1)), F(s("f",0)), F(s("f",1))]});
-  return `<div class="card"><h2>Neraca Saldo</h2>${tbl(["Akun","NS D","NS K","Penyes. D","Penyes. K","Setelah D","Setelah K"], rows, [1,2,3,4,5,6])}${stat(Math.abs(s("a",0)-s("a",1)) < .5, "Neraca Saldo Seimbang")}</div>`;
-}
+function reports(){const b=bal(["A","U","P"]),g=k=>b[k]||0,cr=k=>-g(k),pre=p=>S.coa.filter(([k])=>k.startsWith(p));
+const pen=pre("4-1").map(([k,n])=>[n,cr(k)]),lain=pre("4-2").concat(pre("4-3")).map(([k,n])=>[n,cr(k)]),beb=pre("5-").filter(([k])=>k!=="5-1300").map(([k,n])=>[n,g(k)]);
+const sum=a=>a.reduce((s,x)=>s+x[1],0),jual=sum(pen),hpp=g("5-1300"),lain_=sum(lain),bbn=sum(beb),laba=jual-hpp+lain_-bbn;
+const LR=[["Penjualan",jual],["HPP",-hpp],["LABA KOTOR",jual-hpp,1],...lain.filter(x=>x[1]).map(x=>[x[0],x[1]]),...beb.filter(x=>x[1]).map(x=>["Beban: "+x[0],-x[1]]),["LABA (RUGI) BERSIH",laba,1]];
+const A=pre("1-").map(([k,n])=>[k+" "+n,g(k)]).filter(x=>x[1]),L=pre("2-").map(([k,n])=>[k+" "+n,cr(k)]).filter(x=>x[1]);
+const Q=pre("3-").map(([k,n])=>[k+" "+n,cr(k)]).filter(x=>x[1]);const aset=sum(A),liab=sum(L),eq=sum(Q)+laba;
+const NR=[["ASET",0,1],...A,["TOTAL ASET",aset,1],["LIABILITAS",0,1],...L,["TOTAL LIABILITAS",liab,1],["EKUITAS",0,1],...Q,["Laba (rugi) berjalan",laba],["TOTAL EKUITAS",eq,1],["TOTAL LIABILITAS + EKUITAS",liab+eq,1]];
+const a0=bal(["A"]);const modal0=-S.coa.filter(([k])=>k[0]==="3").reduce((s,[k])=>s+(a0[k]||0),0),prive=-g("3-1002")+(a0["3-1002"]||0);
+const other=eq-laba-modal0-prive;const PM=[["Modal awal periode",modal0],["Laba (rugi) bersih",laba],["Penambahan modal / mutasi lain",other],["Prive",prive],["MODAL AKHIR",modal0+laba+other+prive,1]];
+const cat=k=>k.startsWith("1-4")?"Investasi":k.startsWith("3-")||k==="2-1101"?"Pendanaan":"Operasional";const fl={Operasional:0,Investasi:0,Pendanaan:0,Transfer:0};
+for(const j of S.j.filter(x=>x.jn!=="A")){const kas=j.l.filter(x=>KAS.includes(x[0])),oth=j.l.filter(x=>!KAS.includes(x[0]));const n=kas.reduce((s,x)=>s+(+x[1]||0)-(+x[2]||0),0);if(kas.length&&oth.length&&n)fl[cat(oth[0][0])]+=n}
+const k0=KAS.reduce((s,k)=>s+(a0[k]||0),0),k1=KAS.reduce((s,k)=>s+g(k),0),net=Object.values(fl).reduce((x,y)=>x+y,0);
+const AK=[...Object.entries(fl).map(([k,v])=>["Kas bersih "+k,v]),["KENAIKAN (PENURUNAN) KAS",net,1],["Saldo kas awal",k0],["SALDO KAS AKHIR",k0+net,1]];
+const chk=[["Neraca seimbang (Aset = Liabilitas + Ekuitas)",Math.abs(aset-liab-eq)<.5],["Modal akhir = ekuitas neraca",Math.abs(PM[4][1]-eq)<.5],["Arus kas = saldo kas buku besar",Math.abs(k0+net-k1)<.5]];
+return{LR,NR,PM,AK,chk,aset,liab,eq,laba}}
 
-function nsRows() {
-  const a = bal(["A","U"]), p = bal(["P"]), f = bal(["A","U","P"]);
-  const sp = v => [v > 0 ? v : 0, v < 0 ? -v : 0];
-  return S.coa.map(([k, n]) => ({k, n, a: sp(a[k]||0), p: sp(p[k]||0), f: sp(f[k]||0)})).filter(r => r.a[0]||r.a[1]||r.p[0]||r.p[1]||r.f[0]||r.f[1]);
-}
+function drawLp(){if(!S.j.length)return`<div class="card">Belum ada data.</div>`;const R=reports();
+const sec=(t,rows)=>`<div class="card"><h2>${t}</h2>${tbl(["Uraian","Rp"],rows.map(r=>({b:r[2],c:[E(r[0]),r[2]&&r[1]===0?"":F(r[1])]})),[1])}</div>`;
+return`<div class="card noprint">${R.chk.map(c=>stat(c[1],c[0])).join(" ")}<br><button class="btn" id="xl">Ekspor Excel</button><button class="btn g" id="pr">Cetak / PDF</button></div>`+sec("Laba Rugi",R.LR)+sec("Perubahan Modal",R.PM)+sec("Neraca",R.NR)+sec("Arus Kas",R.AK)+drawPt()}
 
-function reports() {
-  const b = bal(["A","U","P"]), g = k => b[k] || 0, cr = k => -g(k), pre = p => S.coa.filter(([k]) => k.startsWith(p));
-  const pen = pre("4-1").map(([k,n]) => [n, cr(k)]), lain = pre("4-2").concat(pre("4-3")).map(([k,n]) => [n, cr(k)]), beb = pre("5-").filter(([k]) => k !== "5-1300").map(([k,n]) => [n, g(k)]);
-  const sum = a => a.reduce((s,x) => s + x[1], 0), jual = sum(pen), hpp = g("5-1300"), lain_ = sum(lain), bbn = sum(beb), laba = jual - hpp + lain_ - bbn;
-  const LR = [["Penjualan", jual], ["HPP", -hpp], ["LABA KOTOR", jual-hpp, 1], ...lain.filter(x => x[1]).map(x => [x[0], x[1]]), ...beb.filter(x => x[1]).map(x => ["Beban: " + x[0], -x[1]]), ["LABA (RUGI) BERSIH", laba, 1]];
-  const A = pre("1-").map(([k,n]) => [k + " " + n, g(k)]).filter(x => x[1]), L = pre("2-").map(([k,n]) => [k + " " + n, cr(k)]).filter(x => x[1]);
-  const Q = pre("3-").map(([k,n]) => [k + " " + n, cr(k)]).filter(x => x[1]); const aset = sum(A), liab = sum(L), eq = sum(Q) + laba;
-  const NR = [["ASET", 0, 1], ...A, ["TOTAL ASET", aset, 1], ["LIABILITAS", 0, 1], ...L, ["TOTAL LIABILITAS", liab, 1], ["EKUITAS", 0, 1], ...Q, ["Laba (Rugi) Berjalan", laba], ["TOTAL EKUITAS", eq, 1], ["TOTAL LIABILITAS + EKUITAS", liab+eq, 1]];
-  
-  return { LR, NR, summary: { aset, liab, eq, laba } };
-}
+async function exportXl(){const R=reports(),wb=XLSX.utils.book_new(),NM=getNM(),add=(n,a)=>XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(a),n);
+add("Jurnal",[["Tanggal","Jenis","Keterangan","Kode","Akun","Debit","Kredit"],...sorted().flatMap(j=>j.l.map(([k,d,c])=>[j.tgl,j.jn,j.ket,k,NM[k]||"",+d||0,+c||0]))]);
+add("Neraca Saldo",[["Kode","Akun","NS D","NS K","Penyes D","Penyes K","Setelah D","Setelah K"],...nsRows().map(r=>[r.k,r.n,...r.a,...r.p,...r.f])]);
+for(const[n,k]of[["Laba Rugi","LR"],["Perubahan Modal","PM"],["Neraca","NR"],["Arus Kas","AK"]])add(n,[["Uraian","Rp"],...R[k].map(r=>[r[0],r[1]])]);
+await saveFile("keuangan-reza.xlsx",new Blob([XLSX.write(wb,{type:"array",bookType:"xlsx"})],{type:"application/octet-stream"}))}
 
-function drawLp() {
-  if (!S.j.length) return `<div class="card">Belum ada data untuk menyusun laporan.</div>`;
-  const R = reports();
-  const sec = (t, rows) => `<div class="card"><h2>${t}</h2>${tbl(["Uraian","Rp"], rows.map(r => ({b: r[2], c: [E(r[0]), r[2] && r[1] === 0 ? "" : F(r[1])]})), [1])}</div>`;
-  return `<div class="card noprint"><button class="btn" id="xl">Ekspor ke Excel</button><button class="btn g" id="pr">Cetak / PDF</button></div>` + sec("Laba Rugi", R.LR) + sec("Neraca", R.NR);
-}
-
-// --- UTILS & ROUTING ---
-const saveFile = async (n, b) => {
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(b); a.download = n; a.click();
-};
-
-const restore = f => {
-  if (!f) return;
-  const r = new FileReader();
-  r.onload = () => {
-    try {
-      const o = JSON.parse(r.result);
-      if (confirm("Ganti seluruh data dengan file cadangan ini?")) {
-        S = o; save(); tab = "db"; draw();
-      }
-    } catch(e) { alert("File backup tidak valid."); }
-  };
-  r.readAsText(f);
-};
-
-function draw() {
-  document.querySelectorAll("nav button").forEach(b => b.classList.toggle("on", b.dataset.t === tab));
-  const m = document.getElementById("m"); m.oninput = m.onchange = m.onclick = null;
-  m.innerHTML = { db: drawDb, in: drawIn, ju: drawJu, bb: drawBb, bt: drawBt, ns: drawNs, lp: drawLp, st: drawSt }[tab]();
-  if (tab === "in") bindIn();
-  if (tab === "st") bindSt();
-  if (tab === "ju") m.onclick = e => { const id = e.target.dataset.rm; if (id && confirm("Hapus jurnal ini?")) { S.j = S.j.filter(j => String(j.id) !== id); save(); draw(); } };
-  if (tab === "bb") m.onchange = e => { if (e.target.id === "ac") { acc = e.target.value; draw(); } };
-}
+function draw(){document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("on",b.dataset.t===tab));const m=document.getElementById("m");m.oninput=m.onchange=m.onclick=null;
+m.innerHTML={db:drawDb,in:drawIn,ju:drawJu,bb:drawBb,bt:drawBt,ns:drawNs,lp:drawLp,st:drawSt}[tab]();
+if(tab==="in")bindIn();
+if(tab==="st")bindSt();
+if(tab==="ju")m.onclick=e=>{const id=e.target.dataset.rm;if(id&&confirm("Hapus jurnal ini?")){S.j=S.j.filter(j=>String(j.id)!==id);save();draw()}};
+if(tab==="bb")m.onchange=e=>{if(e.target.id==="ac"){acc=e.target.value;draw()}};
+if(tab==="lp")m.onclick=e=>{if(e.target.id==="xl")exportXl();if(e.target.id==="pr")window.print()}}
 
 draw();
-if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
-</body>
-</html>
+if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});
+</script></body></html>
