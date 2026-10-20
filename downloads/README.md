@@ -1,15 +1,21 @@
-# Paket Keuangan Reza untuk komputer pribadi
+# Keuangan Reza 3.1 — dengan Impor Excel
 
-Unduh `Keuangan-Reza-v3.0.0.zip` pada folder ini memakai tombol Download raw file di GitHub. Ekstrak seluruh isi ZIP, lalu baca `MULAI-DI-SINI.md`.
+Unduh `Keuangan-Reza-v3.1.0.zip`, ekstrak seluruh isinya, lalu baca `MULAI-DI-SINI.md`.
 
-- Node.js 24.13–24.x diperlukan.
-- Windows: jalankan `MULAI-WINDOWS.cmd`.
-- Linux/macOS: jalankan `bash mulai.sh`.
-- Tidak memerlukan API AI atau database eksternal.
-- Akun pemilik dibuat sendiri saat pertama membuka aplikasi.
+- Fitur baru: menu **Impor Excel** bagi pemilik, pembacaan `.xlsx`, pilihan kolom, pratinjau dan validasi server.
+- Mendukung jurnal/saldo awal, kas masuk/keluar, kontak, produk, akun, serta mutasi bank.
+- Template kosong tersedia di menu Impor Excel dan `templates/impor-excel.xlsx`.
+- Node.js 24.13–24.x. Windows: `MULAI-WINDOWS.cmd`; Linux/macOS: `bash mulai.sh`.
+- Tanpa AI, CDN, atau instalasi dependensi npm runtime. Akun pemilik dibuat sendiri.
 
-Paket memuat 37 file source, launcher, panduan dan pengujian. Database pengguna, `.env`, dan kunci autentikasi tidak disertakan.
+## Jika sudah menggunakan versi 3.0
 
-SHA-256: `fccc022aed7fea226aadaaff9ceba3abea02781df221eda6d16a2274bf16ac4b`
+Buat cadangan dan hentikan server lama dengan Ctrl+C. Ekstrak versi baru ke folder terpisah. Salin folder `data` beserta seluruh isinya dan `.env` dari folder lama ke folder baru, lalu jalankan versi baru. Pertahankan folder lama sebagai cadangan. Jika `DATA_DIR` menunjuk lokasi khusus, gunakan lokasi yang sama. Muat ulang browser dan masuk dengan akun pemilik.
 
-Cabang ini khusus untuk pengiriman paket. Aplikasi lengkap berada di dalam ZIP; cabang utama tidak diubah oleh publikasi paket ini.
+Paket terbaru berisi 52 file source, launcher, template, lisensi, panduan, serta pengujian. Database pengguna, `.env`, dan kunci autentikasi tidak disertakan. Paket versi sebelumnya tetap tersedia.
+
+Validasi: 62 tes unit/API + 14 tes browser lulus; ZIP dan aset Excel dalam paket diperiksa.
+
+SHA-256 v3.1.0: `b72cc065e71f17026228b9d45f799b357ca0ca7b326274977dd648f9ea5d3780`
+
+Cabang ini khusus pengiriman paket; aplikasi lengkap berada di dalam ZIP. Cabang utama tidak diubah.
